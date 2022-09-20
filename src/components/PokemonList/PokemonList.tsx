@@ -1,8 +1,8 @@
 import React from "react";
-import {useSelector} from "react-redux";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 const PokemonList: React.FC = () => {
-    const state = useSelector(state => state)
+    const {pokemons, loading, error} = useTypedSelector(state => state.pokemon)
 
     console.log(state)
 
