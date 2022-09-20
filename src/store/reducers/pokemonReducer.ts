@@ -1,6 +1,6 @@
 import {IPokemonAction, IPokemonState, PokemonActionTypes} from "../../types/pokemonType";
 
-const initialState = {
+const initialState: IPokemonState = {
     pokemons: [],
     loading: false,
     error: null
@@ -10,7 +10,6 @@ export const pokemonReducer = (state = initialState, action: IPokemonAction): IP
     switch (action.type) {
         case PokemonActionTypes.FETCH_POKEMONS: {
             return {
-                ...state,
                 loading: true,
                 error: null,
                 pokemons: []
@@ -18,7 +17,6 @@ export const pokemonReducer = (state = initialState, action: IPokemonAction): IP
         }
         case PokemonActionTypes.FETCH_POKEMONS_SUCCESS: {
             return {
-                ...state,
                 loading: false,
                 error: null,
                 pokemons: action.payload
@@ -26,7 +24,6 @@ export const pokemonReducer = (state = initialState, action: IPokemonAction): IP
         }
         case PokemonActionTypes.FETCH_POKEMONS_ERROR: {
             return {
-                ...state,
                 loading: false,
                 error: action.payload,
                 pokemons: []
