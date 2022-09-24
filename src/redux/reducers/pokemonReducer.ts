@@ -3,8 +3,8 @@ import {getPokemonActionTypes, IPokemonState} from "../../types/pokemonTypes";
 
 const initialState: IPokemonState = {
     pokemons: [],
-    loading: false,
-    error: null
+    pokemonLoading: false,
+    pokemonError: null
 }
 
 export const pokemonReducer = (state = initialState, action: IAction): IPokemonState => {
@@ -12,24 +12,24 @@ export const pokemonReducer = (state = initialState, action: IAction): IPokemonS
         case getPokemonActionTypes.GET_POKEMON: {
             return {
                 ...state,
-                loading: true,
-                error: null,
+                pokemonLoading: true,
+                pokemonError: null,
                 pokemons: []
             }
         }
         case getPokemonActionTypes.GET_POKEMON_SUCCESS: {
             return {
                 ...state,
-                loading: false,
-                error: null,
+                pokemonLoading: false,
+                pokemonError: null,
                 pokemons: [...state.pokemons, action.payload]
             }
         }
         case getPokemonActionTypes.GET_POKEMON_ERROR: {
             return {
                 ...state,
-                loading: false,
-                error: action.payload,
+                pokemonLoading: false,
+                pokemonError: action.payload,
                 pokemons: []
             }
         }

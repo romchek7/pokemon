@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 .pokemonsWrapper {
@@ -13,7 +14,6 @@
     align-items: center;
     width: 100%;
     grid-template-columns: repeat(4, 50px);
-    grid-template-rows: repeat(4, 1fr);
     grid-gap: 50px;
 }
 
@@ -129,4 +129,27 @@
     border-style: solid;
     border-radius: 10px;
     border-color: rgb(0, 0, 0);
+}
+
+.loadMore {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadMoreBTN {
+    padding: 20px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(60, 123, 206);
+    border-style: solid;
+    border-radius: 10px;
+    border-color: rgb(23, 50, 80);
+    font-size: 20px;
+}
+
+.loadMoreBTN:hover {
+    background-color: rgb(152, 188, 239);
+    cursor: pointer;
 }

@@ -8,7 +8,7 @@ export const fetchPokemonList = (limit: number) => {
         try {
             dispatch({type: getPokemonListActionsType.FETCH_POKEMON_LIST})
 
-            const response = await getPokemonsAPI(12)
+            const response = await getPokemonsAPI(limit)
 
             if (response.data) {
                 dispatch({

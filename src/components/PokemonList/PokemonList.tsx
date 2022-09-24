@@ -1,25 +1,39 @@
-import React, {useEffect} from "react";
+import React, {MutableRefObject, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {getPokemonListSelector, getPokemonSelector} from "../../redux/selectors/pokemonListSelectors";
 import usePokemonListDispatch from "../../hooks/PokemonListHooks/usePokemonListDispatch";
 import styles from "./PokemonList.module.css";
-import {IPokemonType} from "../../types/pokemonTypes";
 import Pokemon from "./Pokemon/Pokemon";
 
 const PokemonList: React.FC = () => {
     const {pokemonList, loading, error} = useSelector(getPokemonListSelector)
     const {fetchPokemonList, getPokemon} = usePokemonListDispatch()
-    const {pokemons, loading: loadingPokemon, error: errorPokemon} = useSelector(getPokemonSelector)
+    const {pokemons, pokemonLoading, pokemonError} = useSelector(getPokemonSelector)
+    const [startLimit, setStartLimit] = useState(12)
+    const [limit, setLimit] = useState(startLimit)
+    const myRef = useRef() as MutableRefObject<HTMLDivElement>
+    const executeScroll = () => myRef.current.scrollIntoView({behavior: 'smooth'})
 
     useEffect(() => {
-        fetchPokemonList(12)
-    }, [])
+        fetchPokemonList(limit)
+    }, [limit])
 
     useEffect(() => {
-        if (pokemonList.length > 0 && pokemons.length === 0) {
+        if (pokemonList.length > 0) {
             pokemonList.forEach(pokemon => getPokemon(pokemon.url))
         }
+
+        if (startLimit < limit) {
+            if (myRef.current != null) {
+                executeScroll()
+                setStartLimit(limit)
+            }
+        }
     }, [pokemonList])
+
+    const onLoadMore = () => {
+        setLimit(limit+12)
+    }
 
     if (loading) {
         return <h1>Loading...</h1>
@@ -37,17 +51,11 @@ const PokemonList: React.FC = () => {
                         pokemons.map(p => p.name === pokemon.name
                             ? <Pokemon pokemon={p}/>
                             : <span></span>)
-                        // pokemons.map(p => p.name === pokemon.name
-                        //     ? <div>
-                        //         <div>
-                        //             {p.types.map((t : IPokemonType) => <div>
-                        //                 {t.type.name}
-                        //             </div>)}
-                        //         </div>
-                        //     </div>
-                        //     : <span></span>)
                     }
                 </div>)}
+            </div>
+            <div className={styles.loadMore} ref={myRef}>
+                <button className={styles.loadMoreBTN} onClick={() => onLoadMore()}>Load more</button>
             </div>
         </div>
     )

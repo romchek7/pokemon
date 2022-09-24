@@ -1,7 +1,7 @@
 export interface IPokemonState {
     pokemons: ISinglePokemon[]
-    loading: boolean
-    error: null | string
+    pokemonLoading: boolean
+    pokemonError: null | string
 }
 
 export interface ISinglePokemon {
