@@ -7,7 +7,7 @@ const initialState: IPokemonListState = {
     error: null
 }
 
-export const pokemonReducer = (state = initialState, action: IAction): IPokemonListState => {
+export const pokemonListReducer = (state = initialState, action: IAction): IPokemonListState => {
     switch (action.type) {
         case getPokemonListActionsType.FETCH_POKEMON_LIST:
             return {
