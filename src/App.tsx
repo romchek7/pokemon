@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 import PokemonList from "./components/PokemonList/PokemonList";
 
@@ -9,6 +9,7 @@ function App() {
     <div className="App">
         <Navigation/>
         <Routes>
+            <Route path="/" element={<Navigate to="/pokemonlist"/>}/>
             <Route path='/pokemonlist' element={<PokemonList/>}/>
         </Routes>
     </div>

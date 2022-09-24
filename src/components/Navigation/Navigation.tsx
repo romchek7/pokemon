@@ -20,7 +20,6 @@ const LinkNavigation = (props: ILinkNavigation) => {
 const Navigation: React.FC = () => {
     return (
         <nav className={styles.nav}>
-            <LinkNavigation toPath={'/pokemon'} text='Pokemon'/>
             <LinkNavigation toPath={'/pokemonlist'} text='Pokemon list'/>
         </nav>
     )
