@@ -1,12 +1,23 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "../PokemonList.module.css";
 import {ISinglePokemon} from "../../../types/pokemonTypes";
+import PokemonInfoModal from "./PokemonInfoModal";
 
 type PokemonProps = {
     pokemon: ISinglePokemon
 }
 
 const Pokemon: React.FC<PokemonProps> = ({pokemon}) => {
+    const [isShowInfo, setIsShowInfo] = useState(false)
+
+    const onShowPokemonInfo = () => {
+        setIsShowInfo(true)
+    }
+
+    const onClosePokemonInfo = () => {
+        setIsShowInfo(false)
+    }
+
     return (
         <div className={styles.pokemonInfo}>
             <div>
@@ -25,6 +36,10 @@ const Pokemon: React.FC<PokemonProps> = ({pokemon}) => {
                     }>
                 {type.type.name}
             </p>)}</div>
+            <div className={styles.pokemonInfoShow}>
+                <PokemonInfoModal pokemon={pokemon} isShowInfo={isShowInfo} onClosePokemonInfo={onClosePokemonInfo}/>
+                <button className={styles.showInfoBTN} onClick={() => {onShowPokemonInfo()}}>Show info</button>
+            </div>
         </div>
     )
 }
