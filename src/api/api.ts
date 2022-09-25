@@ -7,3 +7,7 @@ export const getPokemonsAPI = (limit: number) => {
 export const getPokemonAPI = (url: string) => {
     return axios.get(`${url}`)
 }
+
+export const getPokemonTypesAPI = () => {
+    return axios.get(`https://pokeapi.co/api/v2/type?limit=999`)
+}

@@ -7,3 +7,7 @@ export const getPokemonListSelector = (state: AppStateType) => {
 export const getPokemonSelector = (state: AppStateType) => {
     return state.pokemonReducer
 }
+
+export const getPokemonTypesSelector = (state: AppStateType) => {
+    return state.pokemonTypeReducer
+}

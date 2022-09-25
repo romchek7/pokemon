@@ -2,6 +2,13 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: row;
+}
+
+.pokemons {
+    width: 80%;
+    display: flex;
+    justify-content: center;
     flex-direction: column;
 }
 
@@ -232,4 +239,39 @@
 
 .table th, .table td {
     border: 1px solid;
+}
+
+.filterWrapper {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    border-right: 1px solid rgb(238, 232, 197);
+}
+
+.filterWrapper2 {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+}
+
+.filterWrapperNames {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.filterWrapperNames {
+    font-size: 20px;
+
+}
+
+.boxType {
+
 }
