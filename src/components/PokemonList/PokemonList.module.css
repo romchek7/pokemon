@@ -267,11 +267,33 @@
     justify-content: center;
 }
 
+.filterWrapper2 form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.filterWrapper2 form button {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: rgb(60, 123, 206);
+    color: white;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: rgb(23, 50, 80);
+}
+
+.filterWrapper2 form button:hover {
+    background-color: rgb(152, 188, 239);
+    cursor: pointer;
+}
+
 .filterWrapperNames {
     font-size: 20px;
-
 }
 
 .boxType {
-
+    cursor: pointer;
 }

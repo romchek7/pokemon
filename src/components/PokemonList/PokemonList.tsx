@@ -1,6 +1,7 @@
 import React, {MutableRefObject, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {
+    getPokemonListByFilters,
     getPokemonListSelector,
     getPokemonSelector,
     getPokemonTypesSelector
@@ -8,6 +9,7 @@ import {
 import usePokemonListDispatch from "../../hooks/PokemonListHooks/usePokemonListDispatch";
 import styles from "./PokemonList.module.css";
 import Pokemon from "./Pokemon/Pokemon";
+import PokemonTypeForm from "./PokemonTypeForm/PokemonTypeForm";
 
 const PokemonList: React.FC = () => {
     const {pokemonList, loading, error} = useSelector(getPokemonListSelector)
@@ -16,8 +18,10 @@ const PokemonList: React.FC = () => {
     const {types, loadingTypes, errorTypes} = useSelector(getPokemonTypesSelector)
     const [startLimit, setStartLimit] = useState(12)
     const [limit, setLimit] = useState(startLimit)
+    const [filters, setFilters] = useState<string[]>([])
     const myRef = useRef() as MutableRefObject<HTMLDivElement>
     const executeScroll = () => myRef.current.scrollIntoView({behavior: 'smooth'})
+    let pokemonsByFilter = useSelector(getPokemonListByFilters(filters))
 
     useEffect(() => {
         fetchPokemonList(limit)
@@ -57,29 +61,20 @@ const PokemonList: React.FC = () => {
     return (
         <div className={styles.mainPokemonlist}>
             <div className={styles.filterWrapper}>
-                <div className={styles.filterWrapperNames}>
-                    <p>Pokemon type:</p>
-                </div>
-                <div className={styles.filterWrapper2}>
-                    {types.map(type => <>
-                            <div><input type='checkbox' className={styles.boxType} placeholder={type.name}/> {type.name}</div>
-                        </>
-                    )}
-                </div>
+                <PokemonTypeForm types={types}
+                                 filters={filters}
+                                 setFilters={setFilters}/>
             </div>
             <div className={styles.pokemons}>
                 <div className={styles.pokemonsWrapper}>
-                    {pokemonList.map(pokemon => <div className={styles.box}>
-                        {
-                            pokemons.map(p => p.name === pokemon.name
-                                ? <Pokemon pokemon={p}/>
-                                : <span></span>)
-                        }
+                    {pokemonsByFilter.sort((a, b) => a.id - b.id)
+                        .map(pokemon => <div className={styles.box}>
+                        <Pokemon pokemon={pokemon}/>
                     </div>)}
                 </div>
-                <div className={styles.loadMore} ref={myRef}>
+                {pokemonsByFilter.length >= 12 ? <div className={styles.loadMore} ref={myRef}>
                     <button className={styles.loadMoreBTN} onClick={() => onLoadMore()}>Load more</button>
-                </div>
+                </div> : <span><br/><br/><br/></span>}
             </div>
         </div>
     )
