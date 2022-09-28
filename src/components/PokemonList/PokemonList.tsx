@@ -18,10 +18,13 @@ const PokemonList: React.FC = () => {
     const {types, loadingTypes, errorTypes} = useSelector(getPokemonTypesSelector)
     const [startLimit, setStartLimit] = useState(12)
     const [limit, setLimit] = useState(startLimit)
-    const [filters, setFilters] = useState<string[]>([])
+    const [filters, setFilters] = useState<Map<string, string>>(new Map())
+    // const filtersMap = new Map()
     const myRef = useRef() as MutableRefObject<HTMLDivElement>
     const executeScroll = () => myRef.current.scrollIntoView({behavior: 'smooth'})
     let pokemonsByFilter = useSelector(getPokemonListByFilters(filters))
+
+    console.log(filters)
 
     useEffect(() => {
         fetchPokemonList(limit)

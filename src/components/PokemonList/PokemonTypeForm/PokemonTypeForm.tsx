@@ -1,72 +1,33 @@
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styles from "../PokemonList.module.css";
 import {IPokemonType} from "../../../types/pokemonTypeTypes";
 import {useFormik} from "formik";
 
 type PokemonTypeProps = {
     types: IPokemonType[]
-    filters: string[]
-    setFilters: Dispatch<SetStateAction<string[]>>
+    filters: Map<string, string>
+    setFilters:  React.Dispatch<React.SetStateAction<Map<string, string>>>
 }
 
 const PokemonTypeForm: React.FC <PokemonTypeProps> = ({types, filters, setFilters}) => {
-    const addFilter = (type: boolean, typeName: string) => {
-        if (type && typeName.length > 0) {
-            setFilters([...filters, typeName])
+    const handleChange = (e:  React.ChangeEvent<HTMLInputElement>) => {
+        const type = e.currentTarget.name
+        const checked = e.currentTarget.checked
+
+        if (checked) {
+            filters.set(type, type)
+            const map = new Map(filters)
+            // filtersMap.set(type, type)
+            setFilters(map)
+        }
+        else {
+            // filtersMap.delete(type)
+            filters.delete(type)
+            const map2 = new Map(filters)
+            setFilters(map2)
         }
     }
 
-    const addAllFilters = (values: any) => {
-        setFilters([])
-        addFilter(values.normal, 'normal')
-        addFilter(values.fighting, 'fighting')
-        addFilter(values.flying, 'flying')
-        addFilter(values.poison, 'poison')
-        addFilter(values.ground, 'ground')
-        addFilter(values.rock, 'rock')
-        addFilter(values.bug, 'bug')
-        addFilter(values.ghost, 'ghost')
-        addFilter(values.steel, 'steel')
-        addFilter(values.fire, 'fire')
-        addFilter(values.water, 'water')
-        addFilter(values.grass, 'grass')
-        addFilter(values.electric, 'electric')
-        addFilter(values.psychic, 'psychic')
-        addFilter(values.ice, 'ice')
-        addFilter(values.dragon, 'dragon')
-        addFilter(values.dark, 'dark')
-        addFilter(values.fairy, 'fairy')
-        addFilter(values.unknown, 'unknown')
-        addFilter(values.shadow, 'shadow')
-    }
-
-    const formik = useFormik({
-        initialValues: {
-            normal: false,
-            fighting: false,
-            flying: false,
-            poison: false,
-            ground: false,
-            rock: false,
-            bug: false,
-            ghost: false,
-            steel: false,
-            fire: false,
-            water: false,
-            grass: false,
-            electric: false,
-            psychic: false,
-            ice: false,
-            dragon: false,
-            dark: false,
-            fairy: false,
-            unknown: false,
-            shadow: false
-        },
-        onSubmit: values => {
-            addAllFilters(values)
-        }
-    })
 
     return (
         <>
@@ -74,19 +35,19 @@ const PokemonTypeForm: React.FC <PokemonTypeProps> = ({types, filters, setFilter
                 <p>Pokemon type:</p>
             </div>
             <div className={styles.filterWrapper2}>
-                <form onSubmit={formik.handleSubmit}>
+
                     {types.map(type => <>
                             <div>
                                 <input type='checkbox'
                                        id={type.name}
                                        name={type.name}
-                                       onChange={formik.handleChange}
+                                       onChange={handleChange}
                                        className={styles.boxType}/> {type.name}
                             </div>
                         </>
                     )}
-                    <button type='submit'>Filter</button>
-                </form>
+                    <button onClick={() => {}}>Filter</button>
+
             </div>
         </>
     )
