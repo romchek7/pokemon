@@ -1,21 +1,35 @@
 import {Dispatch} from "redux";
 import {getPokemonListActionsType, PokemonListActionType} from "../../types/pokemonListTypes";
-import {getPokemonAPI, getPokemonsAPI, getPokemonTypesAPI} from "../../api/api";
+import {getPokemonAPI, getPokemonsAPI, getPokemonsByTypeAPI, getPokemonTypesAPI} from "../../api/api";
 import {getPokemonActionTypes, PokemonActionTypes} from "../../types/pokemonTypes";
 import {getPokemonTypesActionType, PokemonTypeActionTypes} from "../../types/pokemonTypeTypes";
 
-export const fetchPokemonList = (limit: number) => {
+export const fetchPokemonList = (limit: number, url: string) => {
     return async (dispatch: Dispatch<PokemonListActionType>) => {
         try {
             dispatch({type: getPokemonListActionsType.FETCH_POKEMON_LIST})
 
-            const response = await getPokemonsAPI(limit)
+            let response = null
 
-            if (response.data) {
-                dispatch({
-                    type: getPokemonListActionsType.FETCH_POKEMON_LIST_SUCCESS,
-                    payload: response.data.results
-                })
+            if (url != '') {
+                response = await getPokemonsByTypeAPI(url)
+
+                if (response.data) {
+                    dispatch({
+                        type: getPokemonListActionsType.FETCH_POKEMON_LIST_SUCCESS,
+                        payload: response.data.pokemon
+                    })
+                }
+            }
+            else {
+                response = await getPokemonsAPI(limit)
+
+                if (response.data) {
+                    dispatch({
+                        type: getPokemonListActionsType.FETCH_POKEMON_LIST_SUCCESS,
+                        payload: response.data.results
+                    })
+                }
             }
         } catch (e) {
             dispatch({

@@ -1,6 +1,6 @@
 export interface IPokemonType {
     name: string
-    url?: string
+    url: string
 }
 
 export interface IPokemonTypeState {

@@ -1,7 +1,6 @@
 import React, {MutableRefObject, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {
-    getPokemonListByFilters,
     getPokemonListSelector,
     getPokemonSelector,
     getPokemonTypesSelector
@@ -10,25 +9,27 @@ import usePokemonListDispatch from "../../hooks/PokemonListHooks/usePokemonListD
 import styles from "./PokemonList.module.css";
 import Pokemon from "./Pokemon/Pokemon";
 import PokemonTypeForm from "./PokemonTypeForm/PokemonTypeForm";
+import {IPokemon, IPokemonByFilter} from "../../types/pokemonListTypes";
 
 const PokemonList: React.FC = () => {
     const {pokemonList, loading, error} = useSelector(getPokemonListSelector)
-    const {fetchPokemonList, getPokemon, fetchPokemonTypes} = usePokemonListDispatch()
-    const {pokemons, pokemonLoading, pokemonError} = useSelector(getPokemonSelector)
     const {types, loadingTypes, errorTypes} = useSelector(getPokemonTypesSelector)
+    const {pokemons, pokemonLoading, pokemonError} = useSelector(getPokemonSelector)
+
+    const {fetchPokemonList, getPokemon, fetchPokemonTypes} = usePokemonListDispatch()
+
     const [startLimit, setStartLimit] = useState(12)
     const [limit, setLimit] = useState(startLimit)
-    const [filters, setFilters] = useState<Map<string, string>>(new Map())
-    // const filtersMap = new Map()
+    const [typesInputValue, setTypesInputValue] = useState('')
+
+    const [pokemonByFilterUrl, setpokemonByFilterUrl] = useState('')
+
     const myRef = useRef() as MutableRefObject<HTMLDivElement>
     const executeScroll = () => myRef.current.scrollIntoView({behavior: 'smooth'})
-    let pokemonsByFilter = useSelector(getPokemonListByFilters(filters))
-
-    console.log(filters)
 
     useEffect(() => {
-        fetchPokemonList(limit)
-    }, [limit])
+        fetchPokemonList(limit, pokemonByFilterUrl)
+    }, [limit, pokemonByFilterUrl])
 
     useEffect(() => {
         if (types.length === 0) {
@@ -38,19 +39,30 @@ const PokemonList: React.FC = () => {
 
     useEffect(() => {
         if (pokemonList.length > 0) {
-            pokemonList.forEach(pokemon => getPokemon(pokemon.url))
+            pokemonList.forEach(pokemon => {
+                if ((pokemon as IPokemon).name) {
+                    getPokemon(pokemon.url)
+                }
+                else if ((pokemon as IPokemonByFilter).pokemon.name) {
+                    getPokemon(pokemon.pokemon.url)
+                }
+                else {
+                    getPokemon(pokemon.url)
+                }
+            })
         }
 
         if (startLimit < limit) {
-            if (myRef.current != null) {
-                executeScroll()
-                setStartLimit(limit)
-            }
+            setStartLimit(limit)
         }
     }, [pokemonList])
 
     const onLoadMore = () => {
         setLimit(limit + 12)
+
+        setTimeout(() => {
+            executeScroll()
+        }, 1200)
     }
 
     if (loading) {
@@ -64,20 +76,21 @@ const PokemonList: React.FC = () => {
     return (
         <div className={styles.mainPokemonlist}>
             <div className={styles.filterWrapper}>
-                <PokemonTypeForm types={types}
-                                 filters={filters}
-                                 setFilters={setFilters}/>
+                <PokemonTypeForm types={types} setpokemonByFilterUrl={setpokemonByFilterUrl}
+                                 typesInputValue={typesInputValue} setTypesInputValue={setTypesInputValue}
+                                 setLimit={setLimit}/>
             </div>
             <div className={styles.pokemons}>
                 <div className={styles.pokemonsWrapper}>
-                    {pokemonsByFilter.sort((a, b) => a.id - b.id)
+                    {pokemons.slice(0, limit).sort((a, b) => a.id - b.id)
                         .map(pokemon => <div className={styles.box}>
                         <Pokemon pokemon={pokemon}/>
                     </div>)}
                 </div>
-                {pokemonsByFilter.length >= 12 ? <div className={styles.loadMore} ref={myRef}>
+                {pokemons.length >= limit ? <div className={styles.loadMore}>
                     <button className={styles.loadMoreBTN} onClick={() => onLoadMore()}>Load more</button>
                 </div> : <span><br/><br/><br/></span>}
+                <div ref={myRef}></div>
             </div>
         </div>
     )

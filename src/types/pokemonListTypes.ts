@@ -3,8 +3,13 @@ export interface IPokemon {
     url: string
 }
 
+export interface IPokemonByFilter {
+    pokemon: IPokemon
+    slot: number
+}
+
 export interface IPokemonListState {
-    pokemonList: IPokemon[]
+    pokemonList: IPokemon[] | IPokemonByFilter[] | any[]
     loading: boolean
     error: null | string
 }

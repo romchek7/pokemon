@@ -12,6 +12,11 @@
     flex-direction: column;
 }
 
+.pokemonImg {
+    height: 96px;
+    width: 96px;
+}
+
 .pokemonsWrapper {
     padding-top: 40px;
     display: grid;

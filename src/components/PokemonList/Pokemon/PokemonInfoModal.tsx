@@ -16,7 +16,7 @@ const PokemonInfoModal: React.FC<PokemonInfoProps> = ({pokemon, isShowInfo, onCl
              }}>
             <div className={styles.infoBlock}>
                 <div>
-                    <img src={pokemon.sprites.front_default}/>
+                    <img className={styles.pokemonImg} src={pokemon.sprites.front_default}/>
                 </div>
                 <p className={styles.name}>{pokemon.name} #{pokemon.id}</p>
                 <table className={styles.table}>
