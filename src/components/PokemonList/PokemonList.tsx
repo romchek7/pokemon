@@ -10,6 +10,8 @@ import styles from "./PokemonList.module.css";
 import Pokemon from "./Pokemon/Pokemon";
 import PokemonTypeForm from "./PokemonTypeForm/PokemonTypeForm";
 import {IPokemon, IPokemonByFilter} from "../../types/pokemonListTypes";
+import {SearchOutlined} from '@ant-design/icons';
+import {Button, Tooltip} from 'antd';
 
 const PokemonList: React.FC = () => {
     const {pokemonList, loading, error} = useSelector(getPokemonListSelector)
@@ -42,11 +44,9 @@ const PokemonList: React.FC = () => {
             pokemonList.forEach(pokemon => {
                 if ((pokemon as IPokemon).name) {
                     getPokemon(pokemon.url)
-                }
-                else if ((pokemon as IPokemonByFilter).pokemon.name) {
+                } else if ((pokemon as IPokemonByFilter).pokemon.name) {
                     getPokemon(pokemon.pokemon.url)
-                }
-                else {
+                } else {
                     getPokemon(pokemon.url)
                 }
             })
@@ -84,13 +84,17 @@ const PokemonList: React.FC = () => {
                 <div className={styles.pokemonsWrapper}>
                     {pokemons.slice(0, limit).sort((a, b) => a.id - b.id)
                         .map(pokemon => <div className={styles.box}>
-                        <Pokemon pokemon={pokemon}/>
-                    </div>)}
+                            <Pokemon pokemon={pokemon}/>
+                        </div>)}
                 </div>
                 {pokemons.length >= limit ? <div className={styles.loadMore}>
                     <button className={styles.loadMoreBTN} onClick={() => onLoadMore()}>Load more</button>
                 </div> : <span><br/><br/><br/></span>}
                 <div ref={myRef}></div>
+                <Tooltip>
+                    <Button type="primary" shape="circle" icon={<SearchOutlined/>}
+                            onClick={() => {window.scrollTo({behavior: 'smooth', top: 0})}} className={styles.goToFiltersBtn}/>
+                </Tooltip>
             </div>
         </div>
     )

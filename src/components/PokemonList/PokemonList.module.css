@@ -302,3 +302,48 @@
 .boxType {
     cursor: pointer;
 }
+
+.goToFiltersBtn {
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 20px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(60, 123, 206);
+    border-style: solid;
+    border-radius: 50%;
+    border-color: rgb(23, 50, 80);
+}
+
+.goToFiltersBtn:hover {
+    color: rgb(23, 50, 80);;
+    background-color: rgb(152, 188, 239);
+}
+
+@media (max-width: 900px) {
+    .mainPokemonlist {
+        flex-direction: column;
+    }
+
+    .filterWrapper {
+        width: 100%;
+    }
+
+    .pokemons {
+        width: 100%;
+    }
+
+    .pokemonsWrapper {
+        width: 100%;
+        grid-template-columns: repeat(1, 50px);
+    }
+
+    .infoBlock {
+        width: 80%;
+    }
+
+    .goToFiltersBtn {
+        display: block;
+    }
+}
