@@ -12,6 +12,7 @@ import PokemonTypeForm from "./PokemonTypeForm/PokemonTypeForm";
 import {IPokemon, IPokemonByFilter} from "../../types/pokemonListTypes";
 import {SearchOutlined} from '@ant-design/icons';
 import {Button, Tooltip} from 'antd';
+import Preloader from "../assets/Preloader/Preloader";
 
 const PokemonList: React.FC = () => {
     const {pokemonList, loading, error} = useSelector(getPokemonListSelector)
@@ -66,7 +67,7 @@ const PokemonList: React.FC = () => {
     }
 
     if (loading) {
-        return <h1>Loading...</h1>
+        return <Preloader/>
     }
 
     if (error) {
