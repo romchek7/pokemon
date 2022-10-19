@@ -11,6 +11,7 @@ function App() {
         <Navigation/>
         <Routes>
             <Route path='/' element={<PokemonList/>}/>
+            <Route path='/pokemon' element={<PokemonList/>}/>
         </Routes>
         <Footer/>
     </div>
